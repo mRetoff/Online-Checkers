@@ -1,0 +1,17 @@
+#backB {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+}
+
+#page {
+    width: 70%;
+    margin-right: auto;
+    margin-left: 10px;
+}
+
+#account {
+    border-bottom: 2px solid #808080;
+    margin-right: auto;
+}
