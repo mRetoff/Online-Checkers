@@ -1,0 +1,19 @@
+#topBorder {
+    display: flex;
+}
+
+#title {
+    margin: 0;
+    margin-right: auto !important;
+    margin-left: 10px;
+}
+
+#buttons {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#buttons * {
+    margin-right: 10px;
+}

@@ -10,7 +10,7 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{position: "absolute", width: "100%"}}>
         <Router>
           <Route path="/profile" exact strict component={Profile} />
           <Route path="/" exact strict component={Home} />
