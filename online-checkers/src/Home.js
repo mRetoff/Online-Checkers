@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import base from './base';
 import { auth } from './base';
 import { NavLink } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import './Home.css';
 
 class Home extends Component {
@@ -20,7 +22,25 @@ class Home extends Component {
 		this.handleProfile = this.handleProfile.bind(this);
 	}
 
-	handleLogin(ev) {
+	async handleLogin(ev) {
+		const {value: formValues} = await Swal.fire({
+		  title: 'Login',
+		  html:
+		    '<input id="swal-input1" class="swal2-input" placeholder="Email">' +
+		    '<input id="swal-input2" class="swal2-input" placeholder="Password">',
+		  focusConfirm: false,
+		  preConfirm: () => {
+		    return [
+		      document.getElementById('swal-input1').value,
+		      document.getElementById('swal-input2').value
+		    ]
+		  }
+		})
+		//debug print out the string from input boxes
+		if (formValues) {
+			Swal.fire(JSON.stringify(formValues))
+		}
+		
 		ev.preventDefault();
 		auth.signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
 			var errorMessage = "Invalid email/password";
