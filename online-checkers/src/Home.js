@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import base from './base';
-import { auth } from './base';
+import { auth, base } from './base';
 import { NavLink } from 'react-router-dom';
 import './Home.css';
 
@@ -16,14 +15,16 @@ class Home extends Component {
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
-		this.handleProfile = this.handleProfile.bind(this);
 	}
 
 	handleLogin(ev) {
 		ev.preventDefault();
 		auth.signInWithEmailAndPassword(this.email, this.password)
 			.then(user => {
-				this.setState({ currentUser: user })
+				this.setState({ currentUser: user });
+				base.ref('users/' + user.uid).set({
+					online: true,
+				});
 			})
 			.catch(function (error) {
 				const errorMessage = "Invalid email/password";
@@ -32,15 +33,23 @@ class Home extends Component {
 	}
 
 	register() {
-		auth.createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
+		auth.createUserWithEmailAndPassword(this.email, this.password)
+		.then((user) => {
+			//Add user to database
+			base.ref('users/' + user.uid).set({
+				username: this.state.name,
+				email: this.state.email,
+				online: false,
+			});
+		})
+		.catch(function (error) {
 			var errorMessage = "Invalid email/password";
 			alert(errorMessage);
 		});
 	}
 
 	setUserName(name) {
-		var user = auth.currentUser;
-		user.updateProfile({
+		this.state.currentUser.updateProfile({
 			displayName: name,
 		})
 			.then(console.log("Success"))
@@ -50,23 +59,23 @@ class Home extends Component {
 	handleLogout(ev) {
 		ev.preventDefault();
 		auth.signOut().then(function () {
-			// Sign-out successful.
+			base.ref('users/' + this.state.currentUser.uid).set({
+				online: false,
+			});
+			this.setState({ currentUser: '' });
 		}).catch(function (error) {
 			// An error happened.
 		});
 	}
 
-	handleProfile(ev) {
-		ev.preventDefault();
-	}
-
 	componentWillMount() {
 		//Supposed to get list of all users, not working yet
-		base.syncState('userList', {
+		base.syncState('/users', {
 			context: this,
 			state: 'userList',
 			asArray: true,
 		})
+		console.log(this.state.userList);
 	}
 
 	componentDidMount() {
@@ -76,6 +85,7 @@ class Home extends Component {
 			}
 		});
 
+		
 	}
 
 	render() {
