@@ -11,7 +11,6 @@ class Home extends Component {
 			currentUser: '',
 			email: '',
 			password: '',
-			auth: false //Is the user signed in?
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
@@ -68,16 +67,6 @@ class Home extends Component {
 		});
 	}
 
-	componentWillMount() {
-		//Supposed to get list of all users, not working yet
-		base.syncState('/users', {
-			context: this,
-			state: 'userList',
-			asArray: true,
-		})
-		console.log(this.state.userList);
-	}
-
 	componentDidMount() {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
@@ -85,7 +74,13 @@ class Home extends Component {
 			}
 		});
 
-		
+		var ref = base.ref("users/");
+		ref.on("value", function(snapshot) {
+		 snapshot.forEach(function(childSnapshot) {
+			var child = childSnapshot.val();
+			console.log(child);
+		 });
+		});
 	}
 
 	render() {
