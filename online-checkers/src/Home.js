@@ -12,7 +12,6 @@ class Home extends Component {
 			currentUser: '',
 			email: '',
 			password: '',
-			user: '',
 			auth: false //Is the user signed in?
 		}
 		this.handleLogin = this.handleLogin.bind(this);
@@ -22,24 +21,37 @@ class Home extends Component {
 
 	handleLogin(ev) {
 		ev.preventDefault();
-		auth.signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
+		auth.signInWithEmailAndPassword(this.email, this.password)
+			.then(user => {
+				this.setState({ currentUser: user })
+			})
+			.catch(function (error) {
+				const errorMessage = "Invalid email/password";
+				alert(errorMessage);
+			});
+	}
+
+	register() {
+		auth.createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
 			var errorMessage = "Invalid email/password";
 			alert(errorMessage);
 		});
 	}
 
-	register() {
-		auth.createUserWithEmailAndPassword(this.email, this.password).catch(function(error) {
-			var errorMessage = "Invalid email/password";
-			alert(errorMessage);
-		});
+	setUserName(name) {
+		var user = auth.currentUser;
+		user.updateProfile({
+			displayName: name,
+		})
+			.then(console.log("Success"))
+			.catch(console.log("Error"));
 	}
 
 	handleLogout(ev) {
 		ev.preventDefault();
-		auth.signOut().then(function() {
+		auth.signOut().then(function () {
 			// Sign-out successful.
-		}).catch(function(error) {
+		}).catch(function (error) {
 			// An error happened.
 		});
 	}
@@ -49,20 +61,21 @@ class Home extends Component {
 	}
 
 	componentWillMount() {
+		//Supposed to get list of all users, not working yet
 		base.syncState('userList', {
 			context: this,
 			state: 'userList',
 			asArray: true,
 		})
-		var user = auth.currentUser;
 	}
 
 	componentDidMount() {
-		auth.onAuthStateChanged((auth) => {
-			auth
-				? this.setState({ auth: true })
-				: this.setState({ auth: false });
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({ user: user })
+			}
 		});
+
 	}
 
 	render() {
@@ -72,7 +85,7 @@ class Home extends Component {
 					<h1 id="title">Online Checkers</h1>
 					<div id="buttons">
 						<button id="loginB" onClick={this.handleLogin}>
-							{this.state.auth ? <NavLink exact to="/profile" activeClassName="active">Manage Profile</NavLink>
+							{this.state.user ? <NavLink exact to="/profile" activeClassName="active">Manage Profile</NavLink>
 								: "Login"}
 						</button>
 						<button id="logoutB" onClick={this.handleLogout}>Logout</button>
