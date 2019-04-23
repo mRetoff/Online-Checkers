@@ -36,7 +36,7 @@ class Home extends Component {
 		if (formValues) {
 			Swal.fire(JSON.stringify(formValues))
 		}
-		
+
 		ev.preventDefault();
 		auth.signInWithEmailAndPassword(this.email, this.password)
 			.then(user => {
@@ -76,6 +76,25 @@ class Home extends Component {
 	}
 
 	handleLogout(ev) {
+
+		Swal.fire({
+		  title: 'Are you sure you want to logout?',
+		  text: "You will have to log back in to play again!",
+		  type: 'question',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, logout'
+		}).then((result) => {
+		  if (result.value) {
+		    Swal.fire(
+		      'Logged Out',
+		      'Hope to see you back soon!',
+		      'success'
+		    )
+		  }
+		})
+
 		ev.preventDefault();
 		auth.signOut().then(function () {
 			base.ref('users/' + this.state.currentUser.uid).set({
