@@ -21,6 +21,7 @@ class Home extends Component {
 	async handleLogin(ev) {
 		const {value: formValues} = await Swal.fire({
 		  title: 'Login',
+		  footer: '<a href>Not an existing user? Register</a>',
 		  html:
 		    '<input id="swal-input1" class="swal2-input" placeholder="Email">' +
 		    '<input id="swal-input2" class="swal2-input" placeholder="Password">',

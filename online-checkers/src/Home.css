@@ -21,3 +21,13 @@
 #page {
     display: flex;
 }
+
+a, a:visited, a:active {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color:grey;
+  text-decoration: none;
+}
