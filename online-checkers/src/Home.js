@@ -13,7 +13,15 @@ class Home extends Component {
             </div>
         </div>
         <div id="page">
+            <div id="timer">
             
+            </div>
+            <div id="board">
+            
+            </div>
+            <div id="userList">
+            
+            </div>
         </div>
       </div>
     );

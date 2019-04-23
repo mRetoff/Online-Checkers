@@ -17,3 +17,7 @@
 #buttons * {
     margin-right: 10px;
 }
+
+#page {
+    display: flex;
+}
