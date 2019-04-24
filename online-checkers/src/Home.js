@@ -119,7 +119,6 @@ class Home extends Component {
 						title: 'Success',
 						text: 'You\'ve successfully created and account. You can log in now!',
 					})
-=======
 		auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 			.then((user) => {
 				//Add user to database
@@ -130,7 +129,6 @@ class Home extends Component {
 					wins: 0,
 					losses: 0,
 				});
->>>>>>> 8ea957c2a7611e8e0ef4541a4533c021b46fc4c5
 
 				})
 				.catch(function (error) {
