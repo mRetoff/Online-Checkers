@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { auth, base } from './base';
+import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './Home.css';
@@ -42,7 +43,6 @@ class Home extends Component {
 		//if (formValues) {
 		//Swal.fire(JSON.stringify(formValues))
 		//}
-<<<<<<< HEAD
 		if (formValues) {
 			auth.signInWithEmailAndPassword(this.state.email, this.state.password)
 				.then(user => {
@@ -52,22 +52,6 @@ class Home extends Component {
 						title: 'Success',
 						text: 'You\'ve successfully logged in',
 					})
-=======
-		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-			.then(user => {
-				this.setState({ currentUser: user, username: user.displayName });
-				Swal.fire({
-  				type: 'success',
-  				title: 'Success',
-  				text: 'You\'ve successfully logged in',
-				})
-			})
-			.catch(function (error) {
-				Swal.fire({
-  				type: 'error',
-  				title: 'Error',
-  				text: 'Invalid Email/Password',
->>>>>>> 8ea957c2a7611e8e0ef4541a4533c021b46fc4c5
 				})
 				.catch(function (error) {
 					Swal.fire({
@@ -101,7 +85,6 @@ class Home extends Component {
 			}
 		})
 
-<<<<<<< HEAD
 		if (registerValues){
 			auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then((user) => {
@@ -119,16 +102,6 @@ class Home extends Component {
 						title: 'Success',
 						text: 'You\'ve successfully created and account. You can log in now!',
 					})
-		auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-			.then((user) => {
-				//Add user to database
-				base.ref('users/' + user.uid).set({
-					username: this.state.name,
-					email: this.state.email,
-					password: this.state.password,
-					wins: 0,
-					losses: 0,
-				});
 
 				})
 				.catch(function (error) {
@@ -148,6 +121,7 @@ class Home extends Component {
 	}
 
 	handleLogout(ev) {
+		
 		Swal.fire({
 			title: 'Are you sure you want to logout?',
 			text: "You will have to log back in to play again!",
