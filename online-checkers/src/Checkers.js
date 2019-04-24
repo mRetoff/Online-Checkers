@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Checkers.css';
 
 class Checkers extends Component {
 
@@ -25,7 +26,7 @@ class Checkers extends Component {
     this.yield = this.yield.bind(this);
     this.reset = this.reset.bind(this);
   }
-  
+
   valid(ix, iy, fx, fy) {
 
     // are you moving to the same position
@@ -40,7 +41,7 @@ class Checkers extends Component {
     if (this.state.combo) {
       if (ix !== this.state.px || iy !== this.state.py) {
         return false;
-      } 
+      }
       if (Math.abs(fx - ix) !== 2 || Math.abs(fy - iy) !== 2) {
         return false;
       }
@@ -49,17 +50,17 @@ class Checkers extends Component {
       if (ix < fx) {
         if (iy < fy) {
           j = this.state.board[ix+1][iy+1];
-          c[0] =  1; 
+          c[0] =  1;
           c[1] =  1;
         } else {
           j = this.state.board[ix+1][iy-1];
-          c[0] =  1; 
+          c[0] =  1;
           c[1] = -1;
         }
       } else {
         if (iy < fy) {
           j = this.state.board[ix-1][iy+1];
-          c[0] = -1; 
+          c[0] = -1;
           c[1] =  1;
         } else {
           j = this.state.board[ix-1][iy-1];
@@ -88,12 +89,12 @@ class Checkers extends Component {
       }
       if (v > 2) {
         this.state.board[ix][iy] = 0;
-        this.state.board[fx][fy] = v; 
+        this.state.board[fx][fy] = v;
       } else if (this.state.player === 0) {
         if (fy - iy === -1) {
           if (fy === 0) {
-            this.state.board[ix][iy] = 0; 
-            this.state.board[fx][fy] = v + 2; 
+            this.state.board[ix][iy] = 0;
+            this.state.board[fx][fy] = v + 2;
           } else {
             this.state.board[ix][iy] = 0;
             this.state.board[fx][fy] = v;
@@ -103,17 +104,17 @@ class Checkers extends Component {
       } else if (this.state.player === 1) {
         if (fy - iy === 1) {
           if (fy === 7) {
-            this.state.board[ix][iy] = 0; 
-            this.state.board[fx][fy] = v + 2; 
+            this.state.board[ix][iy] = 0;
+            this.state.board[fx][fy] = v + 2;
           } else {
             this.state.board[ix][iy] = 0;
             this.state.board[fx][fy] = v;
           }
           return true;
         }
-      } 
+      }
       return false;
-    } 
+    }
     */
 
     // move king normally
@@ -121,7 +122,7 @@ class Checkers extends Component {
     if (iy === fy) {
       if (v < 3 || Math.abs(fx - ix) !== 1) {
         return false;
-      } 
+      }
       this.state.board[ix][iy] = 0;
       this.state.board[fx][fy] = v;
       return true;
@@ -136,24 +137,24 @@ class Checkers extends Component {
         this.state.board[fx][fy] = v;
       }
     }
- 
+
     if (Math.abs(fx - ix) === 2 && Math.abs(fy - iy) === 2) {
       let j = 0;
       let c = [0, 0];
       if (ix < fx) {
         if (iy < fy) {
           j = this.state.board[ix+1][iy+1];
-          c[0] =  1; 
+          c[0] =  1;
           c[1] =  1;
         } else {
           j = this.state.board[ix+1][iy-1];
-          c[0] =  1; 
+          c[0] =  1;
           c[1] = -1;
         }
       } else {
         if (iy < fy) {
           j = this.state.board[ix-1][iy+1];
-          c[0] = -1; 
+          c[0] = -1;
           c[1] =  1;
         } else {
           j = this.state.board[ix-1][iy-1];
@@ -184,7 +185,7 @@ class Checkers extends Component {
     let sw = bw / 8;
     let context = c.getContext("2d");
     for (let i = 0; i < 64; i++) {
-      
+
       // draw board
       let color;
       let x = (i >> 3);
@@ -227,14 +228,14 @@ class Checkers extends Component {
 
     }
   }
- 
+
   move(e) {
     let rect = e.target.getBoundingClientRect();
     let bw = e.target.width;
     let sw = bw / 8;
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
-    x = Math.floor(x / sw); 
+    x = Math.floor(x / sw);
     y = Math.floor(y / sw);
     console.log(x);
     console.log(y);
@@ -275,22 +276,22 @@ class Checkers extends Component {
       player : 0,
     });
   }
- 
+
   render() {
     return (
      <div id="board">
-       <button onClick={this.update_board}>
+       <button id="startB" onClick={this.update_board}>
          START
        </button>
-       <button onClick={this.yield}>
+       <button id="yieldB" onClick={this.yield}>
          YIELD
        </button>
-       <button onClick={this.reset}>
+       <button id="resetB" onClick={this.reset}>
          RESET
        </button>
        <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
        </canvas>
-     </div> 
+     </div>
     );
   }
 
