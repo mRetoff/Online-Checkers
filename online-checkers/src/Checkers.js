@@ -189,7 +189,24 @@ class Checkers extends Component {
     
 
   test(e) {
-    console.log(this.board);
+    let c = document.getElementById("theCanvas");
+    let context = c.getContext("2d");
+    for (let i = 0; i < 64; i++) {
+      if ((i >> 3) % 2) {
+        if (i % 2) {
+          context.fillStyle = "#FFFFFF";
+        } else {
+          context.fillStyle = "#000000";
+        }
+      } else {
+        if (i % 2) {
+          context.fillStyle = "#000000";
+        } else {
+          context.fillStyle = "#FFFFFF";
+        }
+      }
+      context.fillRect((i % 8) * 32, (i >> 3) * 32, 32, 32);
+    }
   }
  
   render() {
@@ -198,7 +215,7 @@ class Checkers extends Component {
        <button onClick={this.test.bind(this)}> 
          TEST
        </button>
-       <canvas id="theCanvas" width="200" height="200">
+       <canvas id="theCanvas" width="256" height="256">
        </canvas>
      </div> 
     );
