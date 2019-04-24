@@ -174,7 +174,7 @@ class Home extends Component {
 					<div id="buttons">
 						{!this.state.currentUser ? <button id="loginB" onClick={this.handleLogin}>Login</button>
 						: <button id="logoutB" onClick={this.handleLogout}>Logout</button>}
-						<button onClick={this.register}> 	Register	</button>
+						<button id="registerB" onClick={this.register}> 	Register	</button>
 					</div>
 				</div>
 				<div id="page">
