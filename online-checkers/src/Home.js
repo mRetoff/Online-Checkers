@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { auth, base } from './base';
-import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './Home.css';
@@ -65,7 +64,7 @@ class Home extends Component {
 	}
 
 	async register() {
-
+		var name;
 		const { value: registerValues } = await Swal.fire({
 			title: 'Register',
 			html:
@@ -77,10 +76,10 @@ class Home extends Component {
 			preConfirm: () => {
 				return [
 					this.setState({
-						username : document.getElementById('swal-input1').value,
 						email: document.getElementById('swal-input2').value,
 						password: document.getElementById('swal-input3').value,
-					})
+					}),
+					name = document.getElementById('swal-input1').value,
 				]
 			}
 		})
@@ -89,8 +88,8 @@ class Home extends Component {
 			auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then((user) => {
 					//Add user to database
-					base.ref('users/' + user.uid).set({
-						username: this.state.name,
+					base.ref('users/' + user.user.uid).set({
+						username: name,
 						email: this.state.email,
 						password: this.state.password,
 						wins: 0,
