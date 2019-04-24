@@ -18,6 +18,7 @@ class Home extends Component {
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
+		this.register = this.register.bind(this);
 	}
 
 	async handleLogin(ev) {
@@ -74,13 +75,13 @@ class Home extends Component {
 					this.setState({
 						username : document.getElementById('swal-input1').value,
 						email: document.getElementById('swal-input2').value,
-						password: document.getElementById('swal-input3').value
+						password: document.getElementById('swal-input3').value,
 					})
 				]
 			}
 		})
 
-		auth.createUserWithEmailAndPassword(this.email, this.password)
+		auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 			.then((user) => {
 				//Add user to database
 				base.ref('users/' + user.uid).set({
