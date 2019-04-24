@@ -10,10 +10,14 @@ class Home extends Component {
 		super(props)
 		this.state = {
 			userList: [],
-			currentUser: '',
-			email: '',
-			password: '',
-			username: '',
+			currentUser1: '',
+			currentUser2: '',
+			email1: '',
+			password1: '',
+			username1: '',
+			email2: '',
+			password2: '',
+			username2: '',
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
@@ -30,8 +34,8 @@ class Home extends Component {
 			preConfirm: () => {
 				return [
 					this.setState({
-						email: document.getElementById('swal-input1').value,
-						password: document.getElementById('swal-input2').value
+						email1: document.getElementById('swal-input1').value,
+						password1: document.getElementById('swal-input2').value
 					})
 				]
 			}
@@ -40,9 +44,9 @@ class Home extends Component {
 		//if (formValues) {
 		//Swal.fire(JSON.stringify(formValues))
 		//}
-		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+		auth.signInWithEmailAndPassword(this.state.email1, this.state.password1)
 			.then(user => {
-				this.setState({ currentUser: user });
+				this.setState({ currentUser1: user });
 				console.log("Logged in");
 			})
 			.catch(function (error) {
@@ -52,12 +56,12 @@ class Home extends Component {
 	}
 
 	register() {
-		auth.createUserWithEmailAndPassword(this.email, this.password)
+		auth.createUserWithEmailAndPassword(this.email1, this.password1)
 			.then((user) => {
 				//Add user to database
 				base.ref('users/' + user.uid).set({
-					username: this.state.name,
-					email: this.state.email,
+					username: this.state.username1,
+					email: this.state.email1,
 					wins: 0,
 					losses: 0,
 				});
@@ -69,7 +73,7 @@ class Home extends Component {
 	}
 
 	setUserName(name) {
-		this.state.currentUser.user.updateProfile({
+		this.state.currentUser1.user.updateProfile({
 			displayName: name,
 		})
 			.then(console.log("Success"))
@@ -88,7 +92,7 @@ class Home extends Component {
 		}).then((result) => {
 			if (result.value) {
 				auth.signOut().then(() => {
-					this.setState({ currentUser: '' });
+					this.setState({ currentUser1: '' });
 					console.log("Logged out")
 				}).catch((error) => {
 					console.log(error)
@@ -124,9 +128,10 @@ class Home extends Component {
 				<div id="topBorder">
 					<h1 id="title">Online Checkers</h1>
 					<div id="buttons">
-						<button id="loginB" onClick={this.handleLogin}>Login User 1</button>
-						<button id="loginB" onClick={this.handleLogin2}>Login User 2</button>
-						<button id="logoutB" onClick={this.handleLogout}>Logout</button>
+						{this.state.currentUser1 ? <button id="logoutB" onClick={this.handleLogout}>Logout User 1</button>
+							: <button id="loginB" onClick={this.handleLogin}>Login User 1</button>}
+						{this.state.currentUser2 ? <button id="logoutB" onClick={this.handleLogout2}>Logout User 2</button>
+							: <button id="loginB" onClick={this.handleLogin2}>Login User 2</button>}
 					</div>
 				</div>
 				<div id="page">
@@ -134,9 +139,6 @@ class Home extends Component {
 					
 					</div>
 					<div id="board">
-
-					</div>
-					<div id="userList">
 
 					</div>
 				</div>
