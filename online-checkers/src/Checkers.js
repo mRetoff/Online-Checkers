@@ -223,7 +223,9 @@ class Checkers extends Component {
       console.log("try move");
       if (this.valid(this.state.ipos[0], this.state.ipos[1], x, y)) {
         console.log("valid");
-        this.state.player = (this.state.player + 1) % 2;
+        this.props.onPlayerChange((this.state.player + 1) % 2);
+        this.setState({ player: (this.state.player + 1) % 2 });
+        console.log(this.state.player)
         //this.state.ipos = null;
       }
       this.state.ipos = null
