@@ -1,14 +1,19 @@
-class Checkers {
+import React, { Component } from 'react';
 
-  constructor(p1, s, p2) {
-    this.you = p1; 
-    this.them = p2;
+class Checkers extends Component {
+
+  constructor(props) {
+    //this.you = p1; 
+    //this.them = p2;
+    /*
     this.turn = s;
     if (this.turn) {
       this.color = "black";
     } else {
       this.color = "white";
     }
+    */
+    super(props);
     this.board = [[1,0,1,0,0,0,2,0],
                   [0,1,0,0,0,2,0,2],
                   [1,0,1,0,0,0,2,0],
@@ -19,10 +24,9 @@ class Checkers {
                   [0,1,0,0,0,2,0,2]];
     this.px = 0;
     this.py = 0;
-    this.move = [];
-    this.play();
   }
- 
+  
+  /* 
   play() {
     if (this.turn) {
       //wait for player to move
@@ -37,7 +41,7 @@ class Checkers {
     }
   }
 
-  move(ix, iy, fx, fy) {
+  Move(ix, iy, fx, fy) {
 
     // are you moving to the same position
     if (ix === fx && iy === fy) {
@@ -85,7 +89,7 @@ class Checkers {
         this.move.push(0);
         this.move.push([fx, fy]); 
         this.move.push(v);
-        update(move);
+        this.update(this.move);
       }
       return false;
     }
@@ -101,24 +105,24 @@ class Checkers {
         if (v === 3) {
           this.move = [[ix, iy], 0, [fx, fy], v];
           this.turn = false;
-          update(move);
-          send(move);
+          this.update(this.move);
+          //send(move);
           return true;
         }
         return false;
       }
-      if ((iy + 1) = fy) {
+      if ((iy + 1) === fy) {
         if (fy === 7) {
           this.move = [[ix, iy], 0, [fx, fy], 3];
           this.turn = false;
-          update(move);
-          send(move);
+          this.update(this.move);
+          //send(move);
           return true;
         }
         this.move = [[ix, iy], 0, [fx, fy], v];
         this.turn = false;
-        update(move);
-        send(move);
+        this.update(this.move);
+        //send(move);
         return true; 
       }
       return false; 
@@ -131,8 +135,8 @@ class Checkers {
       } 
       this.move = [[ix, iy], 0, [fx, fy], v];
       this.turn = false;
-      update(move);
-      send(move);
+      this.update(this.move);
+      //send(move);
       return true;
     }
 
@@ -163,7 +167,7 @@ class Checkers {
       }
       if (j > 0 && j % 2 === 0) {
         this.move = [[ix, iy], 0, [c[0], c[1]], 0, [fx, fy], v];
-        update(move);
+        this.update(this.move);
         this.combo = true;
       }
       return false;
@@ -180,9 +184,26 @@ class Checkers {
       this.board[pos[0]][pos[1]] = val;
     }
   }
+  */
  
-  send(move) {
+    
 
+  test(e) {
+    console.log(this.board);
+  }
+ 
+  render() {
+    return (
+     <div id="board">
+       <button onClick={this.test.bind(this)}> 
+         TEST
+       </button>
+       <canvas id="theCanvas" width="200" height="200">
+       </canvas>
+     </div> 
+    );
   }
 
 }
+
+export default Checkers;

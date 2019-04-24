@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { auth, base } from './base';
 import { NavLink } from 'react-router-dom';
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import './Home.css';
+import Board from "./Checkers";
 
 class Home extends Component {
 	constructor(props) {
@@ -141,6 +142,7 @@ class Home extends Component {
 
 					</div>
 					<div id="board">
+						<Board/>
 
 					</div>
 					<div id="userList">
