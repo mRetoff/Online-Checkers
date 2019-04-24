@@ -159,28 +159,30 @@ class Home extends Component {
 	}
 
 	checkForWin(winner) {
-		var win, loss;
-		var ref = base.ref('users/' + this.state.currentUser.user.uid + '/wins');
-		ref.on("value", (snapshot) => {
-			win = snapshot.val();
-		});
-		ref = base.ref('users/' + this.state.currentUser.user.uid + '/losses');
-		ref.on("value", (snapshot) => {
-			loss = snapshot.val();
-		});
+		if (this.state.currentUser) {
+			var win, loss;
+			var ref = base.ref('users/' + this.state.currentUser.user.uid + '/wins');
+			ref.on("value", (snapshot) => {
+				win = snapshot.val();
+			});
+			ref = base.ref('users/' + this.state.currentUser.user.uid + '/losses');
+			ref.on("value", (snapshot) => {
+				loss = snapshot.val();
+			});
 
-		if (winner === 0) {
-			alert("The Guest Wins!");
-			base.ref('users/' + this.state.currentUser.user.uid).set({
-				losses: loss++,
-			});
-		} else if (winner === 1) {
-			alert(this.state.username + " Wins!");
-			base.ref('users/' + this.state.currentUser.user.uid).set({
-				wins: win++,
-			});
+			if (winner === 0) {
+				alert("The Guest Wins!");
+				base.ref('users/' + this.state.currentUser.user.uid).set({
+					losses: loss++,
+				});
+			} else if (winner === 1) {
+				alert(this.state.username + " Wins!");
+				base.ref('users/' + this.state.currentUser.user.uid).set({
+					wins: win++,
+				});
+			}
+			this.setState({ w: win, l: loss });
 		}
-		this.setState({ w: win, l: loss });
 	}
 
 	componentDidMount() {
