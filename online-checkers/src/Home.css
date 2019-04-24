@@ -1,5 +1,6 @@
 #topBorder {
     display: flex;
+    margin-bottom: 20px;
 }
 
 #title {
@@ -30,4 +31,9 @@ a, a:visited, a:active {
 a:hover {
   color:grey;
   text-decoration: none;
+}
+
+#board {
+    display: block;
+    margin-left: auto;
 }
