@@ -18,6 +18,7 @@ class Checkers extends Component {
       ipos : null,
       combo : false,
       player : 0,
+      win : -1,
     };
     this.value = this.valid.bind(this);
     this.move = this.move.bind(this);
@@ -38,12 +39,14 @@ class Checkers extends Component {
 
     // are you capturing more than one piece?
     if (this.state.combo) {
+      console.log("COMBO");
       if (ix !== this.state.px || iy !== this.state.py) {
-        return false;
+        return true;
       } 
       if (Math.abs(fx - ix) !== 2 || Math.abs(fy - iy) !== 2) {
-        return false;
+        return true;
       }
+      console.log("PASSED");
       let j = 0;
       let c = [0, 0];
       if (ix < fx) {
@@ -128,15 +131,21 @@ class Checkers extends Component {
     }
     */
 
-    // capture
     if (Math.abs(fx - ix) === 1 && Math.abs(fy - iy) === 1) {
       if (fy > iy && this.state.player == 1 ||
-          fy < iy && this.state.player == 0) {
+          fy < iy && this.state.player == 0 ||
+          this.state.board[ix][iy] > 2) {
         this.state.board[ix][iy] = 0;
+        if (fy == 0 || fy == 7) {
+          v += 2;
+        }
         this.state.board[fx][fy] = v;
+        return true;
       }
+      return false;
     }
  
+    // capture
     if (Math.abs(fx - ix) === 2 && Math.abs(fy - iy) === 2) {
       let j = 0;
       let c = [0, 0];
@@ -170,7 +179,7 @@ class Checkers extends Component {
         this.state.board[fx][fy] = v;
         this.px = fx;
         this.py = fy;
-        this.combo = true;
+        this.setState({combo: true});
         this.ipos = null;
       }
       return false;
@@ -179,6 +188,20 @@ class Checkers extends Component {
   }
 
   update_board() {
+    let totals = [0,0];
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        if (this.state.board[i][j] === 0) {
+          continue;
+        }
+        totals[this.state.board[i][j]%2]++;
+      }
+    }
+    if (totals[1] === 0) {
+      this.setState({win : 0});
+    } else if (totals[0] === 0) {
+      this.setState({win : 1});
+    }
     let c = document.getElementById("theCanvas");
     let bw = c.width;
     let sw = bw / 8;
@@ -253,7 +276,7 @@ class Checkers extends Component {
   }
 
   yield() {
-    this.state.combo = false;
+    this.setState({combo: false});
     this.state.player = (this.state.player + 1) % 2;
     this.state.ipos = null;
   }
@@ -274,6 +297,7 @@ class Checkers extends Component {
       combo : false,
       player : 0,
     });
+    this.update_board();
   }
  
   render() {
