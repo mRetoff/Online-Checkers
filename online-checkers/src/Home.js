@@ -43,7 +43,7 @@ class Home extends Component {
 		//}
 		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then(user => {
-				this.setState({ currentUser: user });
+				this.setState({ currentUser: user, username: user.displayName });
 				console.log("Logged in");
 			})
 			.catch(function (error) {
