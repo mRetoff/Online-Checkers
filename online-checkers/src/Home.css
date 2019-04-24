@@ -5,8 +5,9 @@
 #topBorder {
     display: flex;
     height: 65px;
-    background-color: #e93131;
+    background-color: #ffdca3;
     border-bottom: 5px outset #e93131;
+    border-left: 5px outset #e93131;
 }
 
 #title {
@@ -21,9 +22,6 @@
     margin-left: auto;
     margin-top: auto;
     margin-bottom: auto;
-}
-
-#buttons * {
     margin-right: 10px;
 }
 
@@ -46,7 +44,34 @@ a:hover {
   text-decoration: none;
 }
 
+#sidebar {
+    padding-left: 80px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 #board {
     display: block;
     margin-left: auto;
+    margin-right: auto;
+}
+
+button#loginB, button#logoutB {
+    background-color: #ff0000;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+  
+button:hover#loginB, button:hover#logoutB {
+      opacity: 1;
 }
