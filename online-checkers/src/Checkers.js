@@ -16,7 +16,6 @@ class Checkers extends Component {
       px : 0,
       py : 0,
       ipos : null,
-      fpos : null,
       combo : false,
       player : 0,
     };
@@ -24,6 +23,7 @@ class Checkers extends Component {
     this.move = this.move.bind(this);
     this.update_board = this.update_board.bind(this);
     this.yield = this.yield.bind(this);
+    this.reset = this.reset.bind(this);
   }
   
   valid(ix, iy, fx, fy) {
@@ -81,6 +81,7 @@ class Checkers extends Component {
     }
 
     // move normally
+    /*
     if (ix === fx) {
       if (Math.abs(fy - iy) !== 1) {
         return false;
@@ -90,7 +91,7 @@ class Checkers extends Component {
         this.state.board[fx][fy] = v; 
       } else if (this.state.player === 0) {
         if (fy - iy === -1) {
-          if (fy == 0) {
+          if (fy === 0) {
             this.state.board[ix][iy] = 0; 
             this.state.board[fx][fy] = v + 2; 
           } else {
@@ -101,7 +102,7 @@ class Checkers extends Component {
         }
       } else if (this.state.player === 1) {
         if (fy - iy === 1) {
-          if (fy == 7) {
+          if (fy === 7) {
             this.state.board[ix][iy] = 0; 
             this.state.board[fx][fy] = v + 2; 
           } else {
@@ -113,8 +114,10 @@ class Checkers extends Component {
       } 
       return false;
     } 
+    */
 
     // move king normally
+    /*
     if (iy === fy) {
       if (v < 3 || Math.abs(fx - ix) !== 1) {
         return false;
@@ -123,8 +126,17 @@ class Checkers extends Component {
       this.state.board[fx][fy] = v;
       return true;
     }
+    */
 
     // capture
+    if (Math.abs(fx - ix) === 1 && Math.abs(fy - iy) === 1) {
+      if (fy > iy && this.state.player == 1 ||
+          fy < iy && this.state.player == 0) {
+        this.state.board[ix][iy] = 0;
+        this.state.board[fx][fy] = v;
+      }
+    }
+ 
     if (Math.abs(fx - ix) === 2 && Math.abs(fy - iy) === 2) {
       let j = 0;
       let c = [0, 0];
@@ -150,6 +162,9 @@ class Checkers extends Component {
         }
       }
       if (j > 0 && j % 2 !== this.state.player) {
+        if (fy == 0 || fy == 7) {
+          v += 2;
+        }
         this.state.board[ix][iy] = 0;
         this.state.board[ix+c[0]][iy+c[1]] = 0;
         this.state.board[fx][fy] = v;
@@ -228,6 +243,7 @@ class Checkers extends Component {
     } else {
       console.log("try move");
       if (this.valid(this.state.ipos[0], this.state.ipos[1], x, y)) {
+        console.log("valid");
         this.state.player = (this.state.player + 1) % 2;
         //this.state.ipos = null;
       }
@@ -241,6 +257,24 @@ class Checkers extends Component {
     this.state.player = (this.state.player + 1) % 2;
     this.state.ipos = null;
   }
+
+  reset() {
+    this.setState({
+      board : [[0,1,0,0,0,2,0,2],
+              [1,0,1,0,0,0,2,0],
+              [0,1,0,0,0,2,0,2],
+              [1,0,1,0,0,0,2,0],
+              [0,1,0,0,0,2,0,2],
+              [1,0,1,0,0,0,2,0],
+              [0,1,0,0,0,2,0,2],
+              [1,0,1,0,0,0,2,0]],
+      px : 0,
+      py : 0,
+      ipos : null,
+      combo : false,
+      player : 0,
+    });
+  }
  
   render() {
     return (
@@ -250,6 +284,9 @@ class Checkers extends Component {
        </button>
        <button onClick={this.yield}>
          YIELD
+       </button>
+       <button onClick={this.reset}>
+         RESET
        </button>
        <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
        </canvas>
