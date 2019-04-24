@@ -6,19 +6,19 @@ class Checkers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      board : [[0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0]],
-      px : 0,
-      py : 0,
-      ipos : null,
-      combo : false,
-      player : 0,
+      board: [[0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0]],
+      px: 0,
+      py: 0,
+      ipos: null,
+      combo: false,
+      player: 0,
     };
     this.value = this.valid.bind(this);
     this.move = this.move.bind(this);
@@ -49,28 +49,28 @@ class Checkers extends Component {
       let c = [0, 0];
       if (ix < fx) {
         if (iy < fy) {
-          j = this.state.board[ix+1][iy+1];
-          c[0] =  1;
-          c[1] =  1;
+          j = this.state.board[ix + 1][iy + 1];
+          c[0] = 1;
+          c[1] = 1;
         } else {
-          j = this.state.board[ix+1][iy-1];
-          c[0] =  1;
+          j = this.state.board[ix + 1][iy - 1];
+          c[0] = 1;
           c[1] = -1;
         }
       } else {
         if (iy < fy) {
-          j = this.state.board[ix-1][iy+1];
+          j = this.state.board[ix - 1][iy + 1];
           c[0] = -1;
-          c[1] =  1;
+          c[1] = 1;
         } else {
-          j = this.state.board[ix-1][iy-1];
+          j = this.state.board[ix - 1][iy - 1];
           c[0] = -1;
           c[1] = -1;
         }
       }
       if (j > 0 && j % 2 !== this.state.player) {
         this.state.board[ix][iy] = 0;
-        this.state.board[ix+c[0]][iy+c[1]] = 0;
+        this.state.board[ix + c[0]][iy + c[1]] = 0;
         this.state.board[fx][fy] = v;
       }
       return false;
@@ -132,7 +132,7 @@ class Checkers extends Component {
     // capture
     if (Math.abs(fx - ix) === 1 && Math.abs(fy - iy) === 1) {
       if (fy > iy && this.state.player == 1 ||
-          fy < iy && this.state.player == 0) {
+        fy < iy && this.state.player == 0) {
         this.state.board[ix][iy] = 0;
         this.state.board[fx][fy] = v;
       }
@@ -143,21 +143,21 @@ class Checkers extends Component {
       let c = [0, 0];
       if (ix < fx) {
         if (iy < fy) {
-          j = this.state.board[ix+1][iy+1];
-          c[0] =  1;
-          c[1] =  1;
+          j = this.state.board[ix + 1][iy + 1];
+          c[0] = 1;
+          c[1] = 1;
         } else {
-          j = this.state.board[ix+1][iy-1];
-          c[0] =  1;
+          j = this.state.board[ix + 1][iy - 1];
+          c[0] = 1;
           c[1] = -1;
         }
       } else {
         if (iy < fy) {
-          j = this.state.board[ix-1][iy+1];
+          j = this.state.board[ix - 1][iy + 1];
           c[0] = -1;
-          c[1] =  1;
+          c[1] = 1;
         } else {
-          j = this.state.board[ix-1][iy-1];
+          j = this.state.board[ix - 1][iy - 1];
           c[0] = -1;
           c[1] = -1;
         }
@@ -167,7 +167,7 @@ class Checkers extends Component {
           v += 2;
         }
         this.state.board[ix][iy] = 0;
-        this.state.board[ix+c[0]][iy+c[1]] = 0;
+        this.state.board[ix + c[0]][iy + c[1]] = 0;
         this.state.board[fx][fy] = v;
         this.px = fx;
         this.py = fy;
@@ -180,52 +180,54 @@ class Checkers extends Component {
   }
 
   update_board() {
-    let c = document.getElementById("theCanvas");
-    let bw = c.width;
-    let sw = bw / 8;
-    let context = c.getContext("2d");
-    for (let i = 0; i < 64; i++) {
+    if (this.props.currentUser) {
+      let c = document.getElementById("theCanvas");
+      let bw = c.width;
+      let sw = bw / 8;
+      let context = c.getContext("2d");
+      for (let i = 0; i < 64; i++) {
 
-      // draw board
-      let color;
-      let x = (i >> 3);
-      let y = (i % 8);
-      if (x % 2) {
-        if (y % 2) {
-          color = "#FFFFFF";
+        // draw board
+        let color;
+        let x = (i >> 3);
+        let y = (i % 8);
+        if (x % 2) {
+          if (y % 2) {
+            color = "#FFFFFF";
+          } else {
+            color = "#000000";
+          }
         } else {
-          color = "#000000";
+          if (y % 2) {
+            color = "#000000";
+          } else {
+            color = "#FFFFFF";
+          }
         }
-      } else {
-        if (y % 2) {
-          color = "#000000";
-        } else {
-          color = "#FFFFFF";
+        context.fillStyle = color;
+        context.fillRect(x * sw, y * sw, sw, sw);
+
+        // draw pieces
+        let v = this.state.board[x][y];
+        if (v > 0 && v % 2 === 0) {
+          context.beginPath();
+          context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 377, 0, Math.PI * 2, false);
+          context.fillStyle = "#443022";
+          context.fill();
+        } else if (v % 2 === 1) {
+          context.beginPath();
+          context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 377, 0, Math.PI * 2, false);
+          context.fillStyle = "#855E42";
+          context.fill();
         }
-      }
-      context.fillStyle = color;
-      context.fillRect(x * sw, y * sw, sw, sw);
+        if (v > 2) {
+          context.beginPath();
+          context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 610, 0, Math.PI * 2, false);
+          context.fillStyle = "#FFD700";
+          context.fill();
+        }
 
-      // draw pieces
-      let v = this.state.board[x][y];
-      if (v > 0 && v % 2 === 0) {
-        context.beginPath();
-        context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 377 , 0, Math.PI * 2, false);
-        context.fillStyle = "#443022";
-        context.fill();
-      } else if (v % 2 === 1) {
-        context.beginPath();
-        context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 377 , 0, Math.PI * 2, false);
-        context.fillStyle = "#855E42";
-        context.fill();
       }
-      if (v > 2) {
-        context.beginPath();
-        context.arc(x * sw + (sw / 2), y * sw + (sw / 2), 144 * sw / 610 , 0, Math.PI * 2, false);
-        context.fillStyle = "#FFD700";
-        context.fill();
-      }
-
     }
   }
 
@@ -262,37 +264,38 @@ class Checkers extends Component {
 
   reset() {
     this.setState({
-      board : [[0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0],
-              [0,1,0,0,0,2,0,2],
-              [1,0,1,0,0,0,2,0]],
-      px : 0,
-      py : 0,
-      ipos : null,
-      combo : false,
-      player : 0,
+      board: [[0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 2, 0, 2],
+      [1, 0, 1, 0, 0, 0, 2, 0]],
+      px: 0,
+      py: 0,
+      ipos: null,
+      combo: false,
+      player: 0,
     });
   }
 
   render() {
+    this.props.winCondition(this.state.win);
     return (
-     <div id="board">
-       <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
-       </canvas>
-       <button id="startB" onClick={this.update_board}>
-         START
+      <div id="board">
+        <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
+        </canvas>
+        <button id="startB" onClick={this.update_board}>
+          START
        </button>
-       <button id="yieldB" onClick={this.yield}>
-         YIELD
+        <button id="yieldB" onClick={this.yield}>
+          YIELD
        </button>
-       <button id="resetB" onClick={this.reset}>
-         RESET
+        <button id="resetB" onClick={this.reset}>
+          RESET
        </button>
-     </div>
+      </div>
     );
   }
 

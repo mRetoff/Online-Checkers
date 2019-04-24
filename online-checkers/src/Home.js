@@ -15,12 +15,15 @@ class Home extends Component {
 			password: '',
 			username: '',
 			currentPlayer: 0,
+			w: 0,
+			l: 0,
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.register = this.register.bind(this);
 		this.getUsername = this.getUsername.bind(this);
 		this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
+		this.checkForWin = this.checkForWin.bind(this);
 	}
 
 	async handleLogin(ev) {
@@ -155,6 +158,35 @@ class Home extends Component {
 		this.setState({ currentPlayer: player });
 	}
 
+	checkForWin(winner) {
+		var win, loss;
+		var ref = base.ref('users/' + this.state.currentUser.user.uid + '/wins');
+		ref.on("value", (snapshot) => {
+			win = snapshot.val();
+		});
+		ref = base.ref('users/' + this.state.currentUser.user.uid + '/losses');
+		ref.on("value", (snapshot) => {
+			loss = snapshot.val();
+		});
+
+		if (winner === 0) {
+			alert("The Guest Wins!");
+			base.ref('users/' + this.state.currentUser.user.uid).set({
+				losses: loss++,
+			});
+		} else if (winner === 1) {
+			alert(this.state.username + " Wins!");
+			base.ref('users/' + this.state.currentUser.user.uid).set({
+				wins: win++,
+			});
+		}
+		this.setState({ w: win, l: loss });
+	}
+
+	componentDidMount() {
+
+	}
+
 	render() {
 		return (
 			<div id="homeLayout">
@@ -172,13 +204,22 @@ class Home extends Component {
 
 						</div>
 						<div id="turn">
-							{this.state.currentPlayer === 0 ? "It is Guest's turn"
-							: "It is " + this.state.username + "'s turn"}
+							{this.state.currentUser ? (this.state.currentPlayer === 0 ? "It is Guest's turn"
+								: "It is " + this.state.username + "'s turn")
+								: ""}
 						</div>
 					</div>
 					<div id="board">
-						<div id="user">{this.state.username}</div>
-						<Board onPlayerChange={this.setCurrentPlayer}/>
+						<div id="userInfo">
+							<div id="user">{this.state.username}</div>
+							{this.state.currentUser ? <div>Wins: {this.state.w} Losses: {this.state.l}</div>
+								: ""}
+
+						</div>
+						<Board
+							onPlayerChange={this.setCurrentPlayer}
+							currentUser={this.state.currentUser}
+							winCondition={this.checkForWin} />
 						<div id="guest">Guest</div>
 					</div>
 				</div>
