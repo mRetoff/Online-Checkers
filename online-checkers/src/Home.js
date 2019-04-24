@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { auth, base } from './base';
-import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './Home.css';
@@ -18,6 +17,7 @@ class Home extends Component {
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
+		this.register = this.register.bind(this);
 	}
 
 	async handleLogin(ev) {
@@ -25,9 +25,10 @@ class Home extends Component {
 			title: 'Login',
 			footer: '<a href>Not an existing user? Register</a>',
 			html:
-				'<input id="swal-input1" class="swal2-input" placeholder="Email">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Password">',
+				'<input type="email" id="swal-input1" class="swal2-input" placeholder="Email">' +
+				'<input type="password" id="swal-input2" class="swal2-input" placeholder="Password">',
 			focusConfirm: false,
+			allowOutsideClick: true,
 			preConfirm: () => {
 				return [
 					this.setState({
@@ -44,27 +45,61 @@ class Home extends Component {
 		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then(user => {
 				this.setState({ currentUser: user, username: user.displayName });
-				console.log("Logged in");
+				Swal.fire({
+  				type: 'success',
+  				title: 'Success',
+  				text: 'You\'ve successfully logged in',
+				})
 			})
 			.catch(function (error) {
-				const errorMessage = "Invalid email/password";
-				alert(errorMessage);
+				Swal.fire({
+  				type: 'error',
+  				title: 'Error',
+  				text: 'Invalid Email/Password',
+				})
 			});
 	}
 
-	register() {
-		auth.createUserWithEmailAndPassword(this.email, this.password)
+	async register() {
+
+		const { value: registerValues } = await Swal.fire({
+			title: 'Register',
+			html:
+		   	'<input type="text" id="swal-input1" class="swal2-input" placeholder="Username">' +
+				'<input type="email" id="swal-input2" class="swal2-input" placeholder="Email">' +
+				'<input type="password" id="swal-input3" class="swal2-input" placeholder="Password">',
+			focusConfirm: false,
+			preConfirm: () => {
+				return [
+					this.setState({
+						username : document.getElementById('swal-input1').value,
+						email: document.getElementById('swal-input2').value,
+						password: document.getElementById('swal-input3').value,
+					})
+				]
+			}
+		})
+
+		auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 			.then((user) => {
 				//Add user to database
 				base.ref('users/' + user.uid).set({
 					username: this.state.name,
 					email: this.state.email,
+					password: this.state.password,
 					wins: 0,
 					losses: 0,
 				});
+
+				Swal.fire({
+					type: 'success',
+					title: 'Success',
+					text: 'You\'ve successfully created and account. You can log in now!',
+				})
+
 			})
 			.catch(function (error) {
-				var errorMessage = "Invalid email/password";
+				var errorMessage = "Email/password already taken!";
 				alert(errorMessage);
 			});
 	}
@@ -127,12 +162,13 @@ class Home extends Component {
 					<div id="buttons">
 						{!this.state.currentUser ? <button id="loginB" onClick={this.handleLogin}>Login</button>
 						: <button id="logoutB" onClick={this.handleLogout}>Logout</button>}
+						<button onClick={this.register}> 	Register	</button>
 					</div>
 				</div>
 				<div id="page">
 					<div id="sidebar">
 						<div id="timer">
-					
+
 						</div>
 						<div id="turn">
 							It is ___'s turn
@@ -140,7 +176,7 @@ class Home extends Component {
 					</div>
 					<div id="board">
 						<div id="user">{this.state.username}</div>
-						<Board/>	
+						<Board/>
 						<div id="guest">Guest</div>
 					</div>
 				</div>
