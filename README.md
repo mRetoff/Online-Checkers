@@ -11,8 +11,7 @@
   Website url: https://online-checkers-43207.firebaseapp.com/
      
 ## Technologies:
-  JavaScript     
-  Python     
+  JavaScript         
   React     
   Firebase     
   
