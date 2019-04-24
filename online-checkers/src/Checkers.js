@@ -42,9 +42,11 @@ class Checkers extends Component {
     if (this.state.combo) {
       console.log("COMBO");
       if (ix !== this.state.px || iy !== this.state.py) {
+        console.log("F1");
         return true;
       }
       if (Math.abs(fx - ix) !== 2 || Math.abs(fy - iy) !== 2) {
+        console.log("F2");
         return true;
       }
       console.log("PASSED");
@@ -131,10 +133,10 @@ class Checkers extends Component {
         this.state.board[ix][iy] = 0;
         this.state.board[ix + c[0]][iy + c[1]] = 0;
         this.state.board[fx][fy] = v;
-        this.px = fx;
-        this.py = fy;
+        this.state.px = fx;
+        this.state.py = fy;
         this.setState({ combo: true });
-        this.ipos = null;
+        this.state.ipos = null;
       }
       return false;
     }
@@ -250,8 +252,8 @@ class Checkers extends Component {
       [1, 0, 1, 0, 0, 0, 2, 0],
       [0, 1, 0, 0, 0, 2, 0, 2],
       [1, 0, 1, 0, 0, 0, 2, 0]],
-      px: 0,
-      py: 0,
+      //px: 0,
+      //py: 0,
       ipos: null,
       combo: false,
       player: 0,
