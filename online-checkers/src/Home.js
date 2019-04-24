@@ -202,27 +202,23 @@ class Home extends Component {
 				</div>
 				<div id="page">
 					<div id="sidebar">
-						<div id="timer">
-
-						</div>
 						<div id="turn">
-							{this.state.currentUser ? (this.state.currentPlayer === 0 ? "It is Guest's turn"
+							<b>{this.state.currentUser ? (this.state.currentPlayer === 0 ? "It is Guest's turn"
 								: "It is " + this.state.username + "'s turn")
-								: ""}
+								: ""}</b>
 						</div>
 					</div>
 					<div id="board">
 						<div id="userInfo">
-							<div id="user">{this.state.username}</div>
+							<div id="user"><b>{this.state.username}</b></div>
 							{this.state.currentUser ? <div>Wins: {this.state.w} Losses: {this.state.l}</div>
 								: ""}
-
 						</div>
 						<Board
 							onPlayerChange={this.setCurrentPlayer}
 							currentUser={this.state.currentUser}
 							winCondition={this.checkForWin} />
-						<div id="guest">Guest</div>
+						<div id="guest"><b>Guest</b></div>
 					</div>
 				</div>
 			</div>

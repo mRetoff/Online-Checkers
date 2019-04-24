@@ -29,10 +29,12 @@
 #page {
     display: flex;
     height: stretch;
+    height: 100%;
     width: stretch;
     padding-top: 20px;
     margin: 0;
     background-image: url("./dynamic-style.png");
+    padding-bottom: 50px;
 }
 
 a, a:visited, a:active {
@@ -79,4 +81,17 @@ button#loginB, button#logoutB, button#registerB {
 
 button:hover#loginB, button:hover#logoutB, button:hover#registerB {
       opacity: 1;
+}
+
+#userInfo {
+    margin-bottom: 15px;
+}
+
+#guest {
+    margin-top: 15px;
+}
+
+#turn {
+    padding-left: 50px;
+    font-size: 30px;
 }
