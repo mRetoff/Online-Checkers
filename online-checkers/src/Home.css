@@ -1,12 +1,20 @@
+#homeLayout {
+    height: stretch;
+}
+
 #topBorder {
     display: flex;
-    margin-bottom: 20px;
+    height: 65px;
+    background-color: #e93131;
+    border-bottom: 5px outset #e93131;
 }
 
 #title {
     margin: 0;
     margin-right: auto !important;
     margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 #buttons {
@@ -21,6 +29,11 @@
 
 #page {
     display: flex;
+    height: stretch;
+    width: stretch;
+    padding-top: 20px;
+    margin: 0;
+    background-image: url("./dynamic-style.png");
 }
 
 a, a:visited, a:active {
