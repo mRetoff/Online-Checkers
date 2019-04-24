@@ -257,8 +257,11 @@ class Checkers extends Component {
     this.update_board();
   }
 
-  render() {
+  componentDidMount() {
     this.props.winCondition(this.state.win);
+  }
+
+  render() {
     return (
       <div id="board">
         <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
