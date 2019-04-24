@@ -18,12 +18,12 @@ class Home extends Component {
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.register = this.register.bind(this);
+		this.getUsername = this.getUsername.bind(this);
 	}
 
 	async handleLogin(ev) {
 		const { value: formValues } = await Swal.fire({
 			title: 'Login',
-			footer: '<a href>Not an existing user? Register</a>',
 			html:
 				'<input type="email" id="swal-input1" class="swal2-input" placeholder="Email">' +
 				'<input type="password" id="swal-input2" class="swal2-input" placeholder="Password">',
@@ -50,7 +50,8 @@ class Home extends Component {
 						type: 'success',
 						title: 'Success',
 						text: 'You\'ve successfully logged in',
-					})
+					});
+					this.getUsername()
 				})
 				.catch(function (error) {
 					Swal.fire({
@@ -60,7 +61,6 @@ class Home extends Component {
 					})
 				});
 		}
-
 	}
 
 	async register() {
@@ -68,7 +68,7 @@ class Home extends Component {
 		const { value: registerValues } = await Swal.fire({
 			title: 'Register',
 			html:
-		   	'<input type="text" id="swal-input1" class="swal2-input" placeholder="Username">' +
+				'<input type="text" id="swal-input1" class="swal2-input" placeholder="Username">' +
 				'<input type="email" id="swal-input2" class="swal2-input" placeholder="Email">' +
 				'<input type="password" id="swal-input3" class="swal2-input" placeholder="Password">',
 			focusConfirm: false,
@@ -84,7 +84,7 @@ class Home extends Component {
 			}
 		})
 
-		if (registerValues){
+		if (registerValues) {
 			auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then((user) => {
 					//Add user to database
@@ -101,29 +101,19 @@ class Home extends Component {
 						title: 'Success',
 						text: 'You\'ve successfully created and account. You can log in now!',
 					})
-
 				})
 				.catch(function (error) {
 					Swal.fire({
-					  type: 'error',
-					  title: 'Oops...',
-					  text: 'Email/Username alredy taken!',
+						type: 'error',
+						title: 'Oops...',
+						text: 'Email/Username alredy taken!',
 					})
 				});
 
 		}
 	}
 
-	setUserName(name) {
-		this.state.currentUser.user.updateProfile({
-			displayName: name,
-		})
-			.then(console.log("Success"))
-			.catch(console.log("Error"));
-	}
-
 	handleLogout(ev) {
-
 		Swal.fire({
 			title: 'Are you sure you want to logout?',
 			text: "You will have to log back in to play again!",
@@ -149,20 +139,14 @@ class Home extends Component {
 		})
 	}
 
-	componentDidMount() {
-		auth.onAuthStateChanged((user) => {
-			if (user) {
-				this.setState({ user: user })
-			}
-		});
-
-		/*var ref = base.ref("users/");
-		ref.on("value", function (snapshot) {
-			snapshot.forEach(function (childSnapshot) {
-				var child = childSnapshot.val();
-				console.log(child);
+	getUsername() {
+		if (this.state.currentUser) {
+			var ref = base.ref('users/' + this.state.currentUser.user.uid + '/username');
+			ref.on("value", (snapshot) => {
+				console.log(snapshot.val());
+				this.setState({ username: snapshot.val() });
 			});
-		});*/
+		}
 	}
 
 	render() {
@@ -172,7 +156,7 @@ class Home extends Component {
 					<h1 id="title">Online Checkers</h1>
 					<div id="buttons">
 						{!this.state.currentUser ? <button id="loginB" onClick={this.handleLogin}>Login</button>
-						: <button id="logoutB" onClick={this.handleLogout}>Logout</button>}
+							: <button id="logoutB" onClick={this.handleLogout}>Logout</button>}
 						<button id="registerB" onClick={this.register}> 	Register	</button>
 					</div>
 				</div>
@@ -187,7 +171,7 @@ class Home extends Component {
 					</div>
 					<div id="board">
 						<div id="user">{this.state.username}</div>
-						<Board/>
+						<Board />
 						<div id="guest">Guest</div>
 					</div>
 				</div>
