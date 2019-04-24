@@ -14,11 +14,13 @@ class Home extends Component {
 			email: '',
 			password: '',
 			username: '',
+			currentPlayer: 0,
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.register = this.register.bind(this);
 		this.getUsername = this.getUsername.bind(this);
+		this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
 	}
 
 	async handleLogin(ev) {
@@ -149,6 +151,10 @@ class Home extends Component {
 		}
 	}
 
+	setCurrentPlayer(player) {
+		this.setState({ currentPlayer: player });
+	}
+
 	render() {
 		return (
 			<div id="homeLayout">
@@ -166,12 +172,13 @@ class Home extends Component {
 
 						</div>
 						<div id="turn">
-							It is ___'s turn
+							{this.state.currentPlayer === 0 ? "It is Guest's turn"
+							: "It is " + this.state.username + "'s turn"}
 						</div>
 					</div>
 					<div id="board">
 						<div id="user">{this.state.username}</div>
-						<Board />
+						<Board onPlayerChange={this.setCurrentPlayer}/>
 						<div id="guest">Guest</div>
 					</div>
 				</div>

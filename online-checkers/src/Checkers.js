@@ -256,6 +256,7 @@ class Checkers extends Component {
   yield() {
     this.state.combo = false;
     this.state.player = (this.state.player + 1) % 2;
+    this.props.onPlayerChange(this.state.player);
     this.state.ipos = null;
   }
 
@@ -280,6 +281,8 @@ class Checkers extends Component {
   render() {
     return (
      <div id="board">
+       <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
+       </canvas>
        <button id="startB" onClick={this.update_board}>
          START
        </button>
@@ -289,8 +292,6 @@ class Checkers extends Component {
        <button id="resetB" onClick={this.reset}>
          RESET
        </button>
-       <canvas id="theCanvas" width="512" height="512" onClick={this.move}>
-       </canvas>
      </div>
     );
   }
