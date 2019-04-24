@@ -44,8 +44,6 @@ class Checkers extends Component {
       if (ix !== this.state.px || iy !== this.state.py) {
         return true;
       } 
-        return false;
-      }
       if (Math.abs(fx - ix) !== 2 || Math.abs(fy - iy) !== 2) {
         return true;
       }
