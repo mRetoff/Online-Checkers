@@ -57,6 +57,10 @@ a:hover {
     margin-right: auto;
 }
 
+#board * {
+    display: block;
+}
+
 button#loginB, button#logoutB, button#registerB {
     background-color: #ff0000;
     color: white;
