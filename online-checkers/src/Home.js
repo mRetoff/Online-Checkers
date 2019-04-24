@@ -18,6 +18,7 @@ class Home extends Component {
 		}
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
+		this.register = this.register.bind(this);
 	}
 
 	async handleLogin(ev) {
@@ -42,22 +43,25 @@ class Home extends Component {
 		//if (formValues) {
 		//Swal.fire(JSON.stringify(formValues))
 		//}
-		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-			.then(user => {
-				this.setState({ currentUser: user });
-				Swal.fire({
-  				type: 'success',
-  				title: 'Success',
-  				text: 'You\'ve successfully logged in',
+		if (formValues) {
+			auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+				.then(user => {
+					this.setState({ currentUser: user });
+					Swal.fire({
+						type: 'success',
+						title: 'Success',
+						text: 'You\'ve successfully logged in',
+					})
 				})
-			})
-			.catch(function (error) {
-				Swal.fire({
-  				type: 'error',
-  				title: 'Error',
-  				text: 'Invalid Email/Password',
-				})
-			});
+				.catch(function (error) {
+					Swal.fire({
+						type: 'error',
+						title: 'Error',
+						text: 'Invalid Email/Password',
+					})
+				});
+		}
+
 	}
 
 	async register() {
@@ -69,39 +73,43 @@ class Home extends Component {
 				'<input type="email" id="swal-input2" class="swal2-input" placeholder="Email">' +
 				'<input type="password" id="swal-input3" class="swal2-input" placeholder="Password">',
 			focusConfirm: false,
+			allowOutsideClick: true,
 			preConfirm: () => {
 				return [
 					this.setState({
 						username : document.getElementById('swal-input1').value,
 						email: document.getElementById('swal-input2').value,
-						password: document.getElementById('swal-input3').value
+						password: document.getElementById('swal-input3').value,
 					})
 				]
 			}
 		})
 
-		auth.createUserWithEmailAndPassword(this.email, this.password)
-			.then((user) => {
-				//Add user to database
-				base.ref('users/' + user.uid).set({
-					username: this.state.name,
-					email: this.state.email,
-					password: this.state.password,
-					wins: 0,
-					losses: 0,
+		if (registerValues){
+			auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+				.then((user) => {
+					//Add user to database
+					base.ref('users/' + user.uid).set({
+						username: this.state.name,
+						email: this.state.email,
+						password: this.state.password,
+						wins: 0,
+						losses: 0,
+					});
+
+					Swal.fire({
+						type: 'success',
+						title: 'Success',
+						text: 'You\'ve successfully created and account. You can log in now!',
+					})
+
+				})
+				.catch(function (error) {
+					var errorMessage = "Email/password already taken!";
+					alert(errorMessage);
 				});
 
-				Swal.fire({
-					type: 'success',
-					title: 'Success',
-					text: 'You\'ve successfully created and account. You can log in now!',
-				})
-
-			})
-			.catch(function (error) {
-				var errorMessage = "Email/password already taken!";
-				alert(errorMessage);
-			});
+		}
 	}
 
 	setUserName(name) {
