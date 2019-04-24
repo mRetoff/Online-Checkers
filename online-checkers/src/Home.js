@@ -25,9 +25,10 @@ class Home extends Component {
 			title: 'Login',
 			footer: '<a href>Not an existing user? Register</a>',
 			html:
-				'<input id="swal-input1" class="swal2-input" placeholder="Email">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Password">',
+				'<input type="email" id="swal-input1" class="swal2-input" placeholder="Email">' +
+				'<input type="password" id="swal-input2" class="swal2-input" placeholder="Password">',
 			focusConfirm: false,
+			allowOutsideClick: true,
 			preConfirm: () => {
 				return [
 					this.setState({
@@ -44,11 +45,18 @@ class Home extends Component {
 		auth.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then(user => {
 				this.setState({ currentUser: user });
-				console.log("Logged in");
+				Swal.fire({
+  				type: 'success',
+  				title: 'Success',
+  				text: 'You\'ve successfully logged in',
+				})
 			})
 			.catch(function (error) {
-				const errorMessage = "Invalid email/password";
-				alert(errorMessage);
+				Swal.fire({
+  				type: 'error',
+  				title: 'Error',
+  				text: 'Invalid Email/Password',
+				})
 			});
 	}
 
@@ -57,9 +65,9 @@ class Home extends Component {
 		const { value: registerValues } = await Swal.fire({
 			title: 'Register',
 			html:
-		   	'<input id="swal-input1" class="swal2-input" placeholder="Username">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Email">' +
-				'<input id="swal-input3" class="swal2-input" placeholder="Password">',
+		   	'<input type="text" id="swal-input1" class="swal2-input" placeholder="Username">' +
+				'<input type="email" id="swal-input2" class="swal2-input" placeholder="Email">' +
+				'<input type="password" id="swal-input3" class="swal2-input" placeholder="Password">',
 			focusConfirm: false,
 			preConfirm: () => {
 				return [
@@ -78,12 +86,20 @@ class Home extends Component {
 				base.ref('users/' + user.uid).set({
 					username: this.state.name,
 					email: this.state.email,
+					password: this.state.password,
 					wins: 0,
 					losses: 0,
 				});
+
+				Swal.fire({
+					type: 'success',
+					title: 'Success',
+					text: 'You\'ve successfully created and account. You can log in now!',
+				})
+
 			})
 			.catch(function (error) {
-				var errorMessage = "Invalid email/password";
+				var errorMessage = "Email/password already taken!";
 				alert(errorMessage);
 			});
 	}
@@ -160,7 +176,7 @@ class Home extends Component {
 					</div>
 					<div id="board">
 						<div id="user">{this.state.username}</div>
-						<Board/>	
+						<Board/>
 						<div id="guest">Guest</div>
 					</div>
 				</div>
