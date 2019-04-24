@@ -105,8 +105,11 @@ class Home extends Component {
 
 				})
 				.catch(function (error) {
-					var errorMessage = "Email/password already taken!";
-					alert(errorMessage);
+					Swal.fire({
+					  type: 'error',
+					  title: 'Oops...',
+					  text: 'Email/Username alredy taken!',
+					})
 				});
 
 		}
@@ -121,7 +124,7 @@ class Home extends Component {
 	}
 
 	handleLogout(ev) {
-		
+
 		Swal.fire({
 			title: 'Are you sure you want to logout?',
 			text: "You will have to log back in to play again!",
