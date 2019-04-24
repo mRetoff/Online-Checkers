@@ -84,54 +84,6 @@ class Checkers extends Component {
       return false;
     }
 
-    // move normally
-    /*
-    if (ix === fx) {
-      if (Math.abs(fy - iy) !== 1) {
-        return false;
-      }
-      if (v > 2) {
-        this.state.board[ix][iy] = 0;
-        this.state.board[fx][fy] = v;
-      } else if (this.state.player === 0) {
-        if (fy - iy === -1) {
-          if (fy === 0) {
-            this.state.board[ix][iy] = 0;
-            this.state.board[fx][fy] = v + 2;
-          } else {
-            this.state.board[ix][iy] = 0;
-            this.state.board[fx][fy] = v;
-          }
-          return true;
-        }
-      } else if (this.state.player === 1) {
-        if (fy - iy === 1) {
-          if (fy === 7) {
-            this.state.board[ix][iy] = 0;
-            this.state.board[fx][fy] = v + 2;
-          } else {
-            this.state.board[ix][iy] = 0;
-            this.state.board[fx][fy] = v;
-          }
-          return true;
-        }
-      }
-      return false;
-    }
-    */
-
-    // move king normally
-    /*
-    if (iy === fy) {
-      if (v < 3 || Math.abs(fx - ix) !== 1) {
-        return false;
-      }
-      this.state.board[ix][iy] = 0;
-      this.state.board[fx][fy] = v;
-      return true;
-    }
-    */
-
     if (Math.abs(fx - ix) === 1 && Math.abs(fy - iy) === 1) {
       if (fy > iy && this.state.player == 1 ||
           fy < iy && this.state.player == 0 ||
