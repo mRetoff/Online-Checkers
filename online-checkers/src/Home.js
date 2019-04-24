@@ -159,12 +159,8 @@ class Home extends Component {
 						</div>
 					</div>
 					<div id="board">
-						<Board/>
-
-					</div>
-					<div id="userList">
-
 						<div id="user">{this.state.username}</div>
+						<Board/>	
 						<div id="guest">Guest</div>
 					</div>
 				</div>
