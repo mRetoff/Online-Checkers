@@ -86,7 +86,6 @@ class Checkers {
         this.move.push([fx, fy]); 
         this.move.push(v);
         update(move);
-        return false;
       }
       return false;
     }
@@ -133,6 +132,7 @@ class Checkers {
       this.move = [[ix, iy], 0, [fx, fy], v];
       this.turn = false;
       update(move);
+      send(move);
       return true;
     }
 
@@ -163,9 +163,8 @@ class Checkers {
       }
       if (j > 0 && j % 2 === 0) {
         this.move = [[ix, iy], 0, [c[0], c[1]], 0, [fx, fy], v];
+        update(move);
         this.combo = true;
-        //update local board but return false so player can move again 
-        return false;
       }
       return false;
     }
@@ -180,6 +179,10 @@ class Checkers {
       let val = move[i*2+1];
       this.board[pos[0]][pos[1]] = val;
     }
+  }
+ 
+  send(move) {
+
   }
 
 }
