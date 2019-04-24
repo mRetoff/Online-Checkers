@@ -52,7 +52,26 @@ class Home extends Component {
 			});
 	}
 
-	register() {
+	async register() {
+
+		const { value: registerValues } = await Swal.fire({
+			title: 'Register',
+			html:
+		   	'<input id="swal-input1" class="swal2-input" placeholder="Username">' +
+				'<input id="swal-input2" class="swal2-input" placeholder="Email">' +
+				'<input id="swal-input3" class="swal2-input" placeholder="Password">',
+			focusConfirm: false,
+			preConfirm: () => {
+				return [
+					this.setState({
+						username : document.getElementById('swal-input1').value,
+						email: document.getElementById('swal-input2').value,
+						password: document.getElementById('swal-input3').value
+					})
+				]
+			}
+		})
+
 		auth.createUserWithEmailAndPassword(this.email, this.password)
 			.then((user) => {
 				//Add user to database
@@ -127,12 +146,13 @@ class Home extends Component {
 					<div id="buttons">
 						{!this.state.currentUser ? <button id="loginB" onClick={this.handleLogin}>Login</button>
 						: <button id="logoutB" onClick={this.handleLogout}>Logout</button>}
+						<button onClick={this.register}> 	Register	</button>
 					</div>
 				</div>
 				<div id="page">
 					<div id="sidebar">
 						<div id="timer">
-					
+
 						</div>
 						<div id="turn">
 							It is ___'s turn
